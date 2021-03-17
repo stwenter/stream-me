@@ -46,8 +46,9 @@ async function createServer() {
         
         await nextApp.prepare();
         app.all('*', (req, res) => {
-    return handle(req, res)
-  })
+            return handle(req, res)
+        })
+        
         app.listen(PORT, () => {
             console.log(`Listening on PORT ${PORT}`)
         })

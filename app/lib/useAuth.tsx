@@ -44,15 +44,18 @@ function useProvideAuth() {
     const signIn = async (email, password) => {
         try {
             const { data } = await signInMutation({ variables: { email, password } });
+            console.log('*****HERE*****', data)
             if (data.login.token && data.login.user) {
                 sessionStorage.setItem('token', data.login.token);
                 client.resetStore().then(() => {
+                    console.log('*****HERE*****')
                     router.push('/')
                 })
             } else {
                 setError('Invalid Login')
             }
         } catch (error) {
+            console.log(error)
             setError(error.message)
         }
     }
