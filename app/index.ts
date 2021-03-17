@@ -6,5 +6,4 @@ const nextApp = next({
     dir: __dirname
 });
 
-
 export default nextApp;
