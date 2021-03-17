@@ -3,7 +3,7 @@ import { ObjectId } from 'mongodb';
 import { Field, ObjectType } from 'type-graphql';
 
 
-@ObjectType({ description: 'User'})
+@ObjectType()
 export class User {
     @Field()
     readonly _id: ObjectId;

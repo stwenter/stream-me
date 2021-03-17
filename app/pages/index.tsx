@@ -1,4 +1,5 @@
 import { Container, Typography, Box, Button } from '@material-ui/core'
+import Posts from 'components/Posts'
 import Link from 'next/link'
 import React from 'react'
 
@@ -12,6 +13,7 @@ const Home = () => {
                 <Link href="/about">
                     <Button variant="contained" color="primary">Go to the about page</Button>
                 </Link>
+              
             </Box>
         </Container>
     )

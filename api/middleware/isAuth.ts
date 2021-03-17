@@ -13,7 +13,7 @@ export const isAuth: MiddlewareFn<MyContext> = async ({ context }, next) => {
 
         context.res.locals.userId = user.id;
 
-        next();
+        return next();
         
     } catch (error) {
         throw new Error(error.message);

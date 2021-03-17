@@ -6,9 +6,10 @@ import cors from 'cors'
 import createSession from '../session'
 import createSchema from '../schema'
 
+import nextApp from '@stream-me/app'
+const handle = nextApp.getRequestHandler();
+
 const PORT = process.env.PORT || 8000
-
-
 
 async function createServer() {
     try {
@@ -19,7 +20,6 @@ async function createServer() {
         const app = express();
 
         const corsOptions = {
-            origin: process.env.URL_APP || 'http://locahost:3000',
             credentials: true
         }
 
@@ -28,6 +28,7 @@ async function createServer() {
         app.use(express.json());
 
         const schema = await createSchema();
+        
 
         // 3. create GraphQL server
         const apolloServer = new ApolloServer({
@@ -41,8 +42,12 @@ async function createServer() {
             }
         });
 
-        apolloServer.applyMiddleware({app, cors: corsOptions})
-
+        apolloServer.applyMiddleware({ app, cors: corsOptions })
+        
+        await nextApp.prepare();
+        app.all('*', (req, res) => {
+    return handle(req, res)
+  })
         app.listen(PORT, () => {
             console.log(`Listening on PORT ${PORT}`)
         })

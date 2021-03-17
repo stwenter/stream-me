@@ -1,12 +1,23 @@
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { ThemeProvider } from '@material-ui/core/styles'
-
+import { ApolloProvider } from '@apollo/client'
+import { useApollo } from '../lib/apollo'
 import { themeDark, themeLight } from 'lib/theme'
-
+import {AuthProvider} from '../lib/useAuth'
+import { Head } from 'next/document'
+import Header from 'components/Header'
 const MyApp = ({ Component, pageProps }) => {
-    
+
+    const apolloClient = useApollo(pageProps.initialApolloState)
+
+    const [darkState, setDarkState] = useState(true)
+
+    const handleThemeChange = () => {
+        setDarkState(!darkState)
+    }
+
     useEffect(() => {
         // Remove ssr injected css
         const jssStyles = document.querySelector('#jss-server-side-styles');
@@ -16,10 +27,15 @@ const MyApp = ({ Component, pageProps }) => {
     }, [])
     
     return (
-        <ThemeProvider theme={true ? themeLight : themeDark}>
-            <CssBaseline />
-            <Component {...pageProps} />
-        </ThemeProvider>
+        <ApolloProvider client={apolloClient}>
+            <ThemeProvider theme={darkState ? themeDark : themeLight}>
+                <CssBaseline />
+                <AuthProvider>
+                    <Header darkState={darkState} handleThemeChange={handleThemeChange}/>
+                    <Component {...pageProps} />
+                </AuthProvider>
+            </ThemeProvider>
+        </ApolloProvider>
     )
 }
 
