@@ -26,7 +26,7 @@ export default function SignUp() {
                     <TextField style={{width: '80%'}} value={password} onChange={(e) => setPassword(e.target.value)}
                         className="form-control" label="Password" type="password" required />
                     <Box pb={2.5} />
-                    <Button variant="contained" color="primary" size="large" >Sign Up</Button>
+                    <Button variant="contained" color="primary" size="large" type="submit">Sign Up</Button>
                 </form>
             </Box>
         </Container>
