@@ -45,7 +45,7 @@ async function createServer() {
         apolloServer.applyMiddleware({ app, cors: corsOptions })
         
         await nextApp.prepare();
-        app.all('*', (req, res) => {
+        app.get('*', (req, res) => {
             return handle(req, res)
         })
         
