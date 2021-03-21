@@ -5,17 +5,14 @@ import jwt from 'jsonwebtoken'
 const APP_SECRET = process.env.SESSION_SECRET || 'aslkdfjoiq12312'
 
 export const isAuth: MiddlewareFn<MyContext> = async ({ context }, next) => {
-    const authorization = context.req.headers['authorization']
-   
+
     try {
-        const token = authorization?.replace("Bearer ", '');
-        const user = jwt.verify(token!, APP_SECRET) as any;
-
-        context.res.locals.userId = user.id;
-
+        const accessToken = context.req.cookies.accessToken;
+        const user = jwt.verify(accessToken!, APP_SECRET) as any;
+        context.res.locals.userId = user.id
         return next();
-        
     } catch (error) {
         throw new Error(error.message);
     }
+
 }

@@ -13,10 +13,13 @@ type Mutation {
   deleteStream(streamId: ObjectId!): Boolean!
   editStream(input: StreamInput!): Stream!
   login(input: AuthInput!): UserResponse!
+  logout: String!
   register(input: AuthInput!): UserResponse!
 }
 
-"""Mongo object id scalar type"""
+"""
+Mongo object id scalar type
+"""
 scalar ObjectId
 
 type Query {
@@ -26,7 +29,9 @@ type Query {
   user(userId: ObjectId!): User
 }
 
-"""Stream embeded post content"""
+"""
+Stream embeded post content
+"""
 type Stream {
   _id: ObjectId!
   author: User!

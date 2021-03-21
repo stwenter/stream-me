@@ -1,17 +1,18 @@
-import { Arg, Mutation, Resolver } from 'type-graphql';
+import { Arg, Mutation, Resolver,Ctx } from 'type-graphql';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
 import { UserModel } from '../entity/User';
 import { AuthInput } from '../types/AuthInput';
 import { UserResponse } from '../types/UserResponse';
+import { MyContext } from 'types/MyContext';
 
 @Resolver()
 export class AuthResolver {
   @Mutation(() => UserResponse)
   async register(
     @Arg('input')
-    { email, password }: AuthInput
+    { email, password }: AuthInput, @Ctx() ctx: MyContext
   ): Promise<UserResponse> {
     // 1. check for existing user email
     const existingUser = await UserModel.findOne({ email });
@@ -35,12 +36,18 @@ export class AuthResolver {
       process.env.SESSION_SECRET || 'aslkdfjoiq12312'
     );
 
-    return { user, token };
+     ctx.res.cookie('accessToken', token, {
+      path: '/',
+        domain: 'localhost',
+        httpOnly: true})
+
+
+    return { user };
   }
 
   @Mutation(() => UserResponse)
   async login(
-    @Arg('input') { email, password }: AuthInput
+    @Arg('input') { email, password }: AuthInput, @Ctx() ctx: MyContext
   ): Promise<UserResponse> {
     const user = await UserModel.findOne({ email });
 
@@ -64,6 +71,21 @@ export class AuthResolver {
       process.env.SESSION_SECRET || 'aslkdfjoiq12312'
     );
 
-    return { user, token };
+    ctx.res.cookie('accessToken', token, {
+      path: '/',
+        domain: 'localhost',
+        httpOnly: true})
+
+    return { user };
+  }
+
+  @Mutation(() => String)
+  async logout(
+    @Ctx() ctx: MyContext
+  ) {
+    // const { accessToken } = ctx.req.cookies;
+
+    ctx.res.clearCookie('accessToken');
+    return "Success"
   }
 }

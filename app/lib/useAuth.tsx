@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { useSignInMutation } from '../lib/graphql/signin.graphql'
 import { useSignUpMutation } from '../lib/graphql/signup.graphql'
 import { useCurrentUserQuery } from '../lib/graphql/currentUser.graphql'
+import { useSignOutMutation } from '../lib/graphql/signout.graphql'
 
 type AuthProps = {
     user: any;
@@ -30,26 +31,28 @@ function useProvideAuth() {
     const router = useRouter();
 
     const [error, setError] = useState('')
+
     const { data } = useCurrentUserQuery({
         fetchPolicy: 'network-only',
         errorPolicy: 'ignore',
     });
 
-    const user = data && data.currentUser;
+
+    let user = data && data.currentUser;
 
     // Singing in and signing up
     const [signInMutation] = useSignInMutation();
     const [signUpMutation] = useSignUpMutation();
-
+    const [signOutMutaion] = useSignOutMutation();
     const signIn = async (email, password) => {
+        // debugger
         try {
             const { data } = await signInMutation({ variables: { email, password } });
-            console.log('*****HERE*****', data)
-            if (data.login.token && data.login.user) {
-                sessionStorage.setItem('token', data.login.token);
+           
+            if (data.login.user) {
+                user = data.login.user
                 client.resetStore().then(() => {
-                    console.log('*****HERE*****')
-                    router.push('/')
+                    router.push('/streams')
                 })
             } else {
                 setError('Invalid Login')
@@ -63,8 +66,8 @@ function useProvideAuth() {
     const signUp = async (email, password) => {
         try {
             const { data } = await signUpMutation({ variables: { email, password } });
-            if (data.register.token && data.register.user) {
-                sessionStorage.setItem('token', data.register.token);
+            if (data.register.user) {
+                user = data.register.user;
                 client.resetStore().then(() => {
                     router.push('/')
                 })
@@ -76,10 +79,11 @@ function useProvideAuth() {
         }
     }
 
-    const signOut = () => {
-        sessionStorage.removeItem('token');
+    const signOut = async () => {
+        await signOutMutaion();
+        user = null;
         client.resetStore().then(() => {
-            router.push('/')
+            router.push('/auth/signin')
         })
     }
 

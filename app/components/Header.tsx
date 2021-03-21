@@ -6,7 +6,7 @@ import { useAuth } from '../lib/useAuth'
 
 export default function Header({ darkState, handleThemeChange }) {
     const classes = useStyles();
-    const { user } = useAuth(); AppBar
+    const { user } = useAuth();
     
     const links = [
         !user && { label: 'Sign Up', href: '/auth/signup' },

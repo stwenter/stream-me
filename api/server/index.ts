@@ -3,6 +3,7 @@ import 'reflect-metadata'
 import { ApolloServer } from 'apollo-server-express'
 import express from 'express'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 import createSession from '../session'
 import createSchema from '../schema'
 
@@ -26,7 +27,7 @@ async function createServer() {
         app.use(cors(corsOptions));
         // body parser built into express
         app.use(express.json());
-
+        app.use(cookieParser())
         const schema = await createSchema();
         
 
