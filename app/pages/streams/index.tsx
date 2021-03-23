@@ -3,8 +3,9 @@ import { Container, Typography, Box } from '@material-ui/core'
 
 import Posts from '../../components/Posts'
 import { useStreamsQuery, Stream } from '../../lib/graphql/streams.graphql'
+import withAuth from 'lib/withAuth';
 
-export default function Streams() {
+ function Streams() {
     const { data, loading, refetch } = useStreamsQuery({ errorPolicy: 'ignore' });
 
     useEffect(() => {
@@ -23,3 +24,6 @@ export default function Streams() {
         </Container>
     )
 }
+
+
+export default withAuth(Streams);

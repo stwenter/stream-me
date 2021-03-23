@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import { Stream } from '../lib/graphql/streams.graphql';
-import { useAuth } from 'lib/useAuth';
+import { useAuth } from '../lib/useAuth';
 
 interface Props {
   stream: Stream;

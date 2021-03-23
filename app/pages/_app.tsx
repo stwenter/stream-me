@@ -6,7 +6,7 @@ import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '../lib/apollo'
 import { themeDark, themeLight } from 'lib/theme'
 import {AuthProvider} from '../lib/useAuth'
-import { Head } from 'next/document'
+
 import Header from 'components/Header'
 const MyApp = ({ Component, pageProps }) => {
 

@@ -2,7 +2,7 @@ import { Container, Typography, Box, Button } from '@material-ui/core'
 import Posts from 'components/Posts'
 import Link from 'next/link'
 import React from 'react'
-
+import withAuth from '../lib/withAuth'
 const Home = () => {
     return (
         <Container maxWidth="sm">
@@ -19,4 +19,6 @@ const Home = () => {
     )
 };
 
-export default Home;
+export default withAuth(Home);
+
+// export default Home;
