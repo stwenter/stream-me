@@ -33,8 +33,10 @@ export default function withConditionalRedirect({
   const WithConditionalRedirectWrapper = (props) => {
     const router = useRouter();
     const redirectCondition = clientCondition();
-
-    if (isBrowser() && redirectCondition) {
+    const isB = isBrowser();
+    console.log('isB', isB);
+    console.log('redir', redirectCondition);
+    if (isB && redirectCondition) {
       router.push(location);
       return <></>;
     }

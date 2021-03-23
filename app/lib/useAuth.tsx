@@ -1,4 +1,4 @@
-import React, {useState, useContext, createContext, useEffect} from 'react'
+import React, {useState, useContext, createContext} from 'react'
 import { useApolloClient } from '@apollo/client'
 import { useRouter } from 'next/router'
 

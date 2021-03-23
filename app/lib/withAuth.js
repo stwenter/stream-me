@@ -9,7 +9,7 @@ export default function withAuth(WrappedComponent, location = '/auth/signin') {
   return withConditionalRedirect({
     WrappedComponent,
     location,
-    clientCondition: async function withAuthClientCondition() {
+    clientCondition: function withAuthClientCondition() {
       console.log('client');
       const { user } = useAuth();
       console.log('Client user', user);
